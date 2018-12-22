@@ -5,68 +5,77 @@
    Web app: https://igkostyuk.github.io/a-tiny-JS-world/
    */
 
-
 // ======== OBJECTS DEFINITIONS ========
 // Define your objects here
-const dog = {
-    species: "dog",
-    name: "Toby",
-    gender: "male",
-    legs: 4,
-    hands: 0,
-    saying: "woof-woof!",
-    friends: ["Artur"]
-};
-const cat = {
-    species: "cat",
-    name: "Tomy",
-    gender: "male",
-    legs: 4,
-    hands: 0,
-    saying: "meow-meow!",
-    friends: ["Jane"]
-};
-const woman = {
-    species: "human",
-    name: "Jane",
-    gender: "female",
-    legs: 2,
-    hands: 2,
-    saying: "Hey! I am a STRONG WOMAN",
-    friends: ["Artur", "Tomy"]
-};
-const man = {
-    species: "human",
-    name: "Artur",
-    gender: "male",
-    legs: 2,
-    hands: 2,
-    saying: "All right everyone, listen up.",
-    friends: ["Jane", "Toby"]
-};
-const catWoman = {
-    species: "cat-woman",
-    name: "Selina",
-    gender: "female",
-    legs: 2,
-    hands: 2,
-    saying: cat.saying,
-    friends: ["Tomy"]
-};
-function output(obj) {
-    let message = "";
-    for (let key of Object.keys(obj)) {
-        message += obj[key] + " ;";
-    }
-    return message;
+
+class Inhabitant {
+  constructor(name, saying, friends, species, legs, hands, gender) {
+    this.species = species;
+    this.name = name;
+    this.gender = gender;
+    this.legs = legs;
+    this.hands = hands;
+    this.saying = saying;
+    this.friends = friends;
+  }
+  toString() {
+    return `${this.species}; ${this.name}; ${this.gender}; ${this.legs}; ${
+        this.hands
+        }; ${this.saying}; ${this.friends}`;
+  }
 }
 
-// ======== OUTPUT ========
-print(output(dog));
-print(output(cat));
-print(output(woman));
-print(output(man));
-print(output(catWoman));
+class Human extends Inhabitant {
+  constructor(name, saying, friends, species, legs, hands, gender) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.species = "human";
+    this.legs = 2;
+    this.hands = 2;
+  }
+}
+class Female extends Human {
+  constructor(name, saying, friends, species, legs, hands, gender) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.gender = "female";
+  }
+}
+class Male extends Human {
+  constructor(name, saying, friends, species, legs, hands, gender) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.gender = "male";
+  }
+}
+
+class Animal extends Inhabitant {
+  constructor(name, saying, friends, species, legs, hands, gender) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.legs = 4;
+    this.hands = 0;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, gender, friends, species, legs, hands, saying) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.species = "Dog";
+    this.saying = "woof-woof!";
+  }
+}
+class Cat extends Animal {
+  constructor(name, gender, friends, species, legs, hands, saying) {
+    super(name, saying, friends, species, legs, hands, gender);
+    this.species = "cat";
+    this.saying = "meow-meow!";
+  }
+}
+
+[
+  new Female("Jane", "Hey! I am a STRONG WOMAN", ["Artur", "Tomy"]),
+  new Male("Artur", "All right everyone, listen up.", ["Jane", "Toby"]),
+  new Cat("Tomy", "female", ["Jane"]),
+  new Dog("Toby", "male", ["Artur"])
+].forEach(inhabitant => print(inhabitant.toString()));
+
 /* Use print(message) for output.
    Default tag for message is <pre>. Use print(message,'div') to change containing element tag.
 

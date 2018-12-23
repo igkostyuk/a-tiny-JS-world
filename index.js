@@ -1,13 +1,3 @@
-/* Refer to https://github.com/OleksiyRudenko/a-tiny-JS-world for the task details
-   Complete the below for code reviewers' convenience:
-
-   Code repository: https://github.com/igkostyuk/a-tiny-JS-world/blob/master/index.js
-   Web app: https://igkostyuk.github.io/a-tiny-JS-world/
-   */
-
-// ======== OBJECTS DEFINITIONS ========
-// Define your objects here
-
 class Inhabitant {
   constructor(name, saying, friends, species, legs, hands, gender) {
     this.species = species;
@@ -18,78 +8,56 @@ class Inhabitant {
     this.saying = saying;
     this.friends = friends;
   }
+  setFriends(friends){
+    this.friends = [...friends];
+  }
   toString() {
-    return `${this.species}; ${this.name}; ${this.gender}; ${this.legs}; ${
-        this.hands
-        }; ${this.saying}; ${this.friends}`;
+    return Object.values(this).join("; ");
   }
 }
 
 class Human extends Inhabitant {
-  constructor(name, saying, friends, species, legs, hands, gender) {
+  constructor(name, saying, friends, species = "human", legs = 2, hands = 2, gender) {
     super(name, saying, friends, species, legs, hands, gender);
-    this.species = "human";
-    this.legs = 2;
-    this.hands = 2;
   }
 }
 class Female extends Human {
-  constructor(name, saying, friends, species, legs, hands, gender) {
+  constructor(name, saying, friends , species, legs, hands, gender = "female") {
     super(name, saying, friends, species, legs, hands, gender);
-    this.gender = "female";
   }
 }
 class Male extends Human {
-  constructor(name, saying, friends, species, legs, hands, gender) {
+  constructor(name, saying, friends, species, legs, hands, gender = "male") {
     super(name, saying, friends, species, legs, hands, gender);
-    this.gender = "male";
   }
 }
 
 class Animal extends Inhabitant {
-  constructor(name, saying, friends, species, legs, hands, gender) {
+  constructor(name, saying, friends, species, legs  = 4, hands = 0, gender) {
     super(name, saying, friends, species, legs, hands, gender);
-    this.legs = 4;
-    this.hands = 0;
   }
 }
 
 class Dog extends Animal {
-  constructor(name, gender, friends, species, legs, hands, saying) {
+  constructor(name, gender, friends, species = "Dog", legs, hands, saying = "woof-woof!") {
     super(name, saying, friends, species, legs, hands, gender);
-    this.species = "Dog";
-    this.saying = "woof-woof!";
   }
 }
 class Cat extends Animal {
-  constructor(name, gender, friends, species, legs, hands, saying) {
+  constructor(name, gender, friends, species  = "cat", legs, hands, saying = "meow-meow!") {
     super(name, saying, friends, species, legs, hands, gender);
-    this.species = "cat";
-    this.saying = "meow-meow!";
   }
 }
 
-[
-  new Female("Jane", "Hey! I am a STRONG WOMAN", ["Artur", "Tomy"]),
-  new Male("Artur", "All right everyone, listen up.", ["Jane", "Toby"]),
-  new Cat("Tomy", "female", ["Jane"]),
-  new Dog("Toby", "male", ["Artur"])
-].forEach(inhabitant => print(inhabitant.toString()));
+const Inhabitants = [
+  new Female("Jane", "Hey! I am a STRONG WOMAN"),
+  new Male("Artur", "All right everyone, listen up."),
+  new Cat("Tomy", "female"),
+  new Dog("Toby", "male")
+]
 
-/* Use print(message) for output.
-   Default tag for message is <pre>. Use print(message,'div') to change containing element tag.
+Inhabitants.forEach(Inhabitant => {
+  Inhabitant.setFriends(Inhabitants.filter(currentName => currentName.name !== Inhabitant.name).map(friend => friend.name));
+  print(Inhabitant);
+});
 
-   Message can contain HTML markup. You may also tweak index.html and/or styles.css.
-   However, please, REFRAIN from improving visuals at least until your code is reviewed
-   so code reviewers might focus on a single file that is index.js.
-   */
-
-/* Print examples:
-   print('ABC');
-   print('<strong>ABC</strong>');
-   print('<strong>ABC</strong>', 'div');
-
-   print('human; John; male; 2; 2; Hello world!; Rex, Tom, Jenny');
-   print('human; <strong>John</strong>; male; 2; 2; <em>Hello world!</em>; Rex, Tom, Jenny');
-   print('human; <strong>John</strong>; male; 2; 2; <em>Hello world!</em>; Rex, Tom, Jenny', 'div');
-   */
